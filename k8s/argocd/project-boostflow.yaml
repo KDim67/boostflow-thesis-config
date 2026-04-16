@@ -1,0 +1,26 @@
+apiVersion: argoproj.io/v1alpha1
+kind: AppProject
+metadata:
+  name: boostflow
+  namespace: argocd
+spec:
+  description: BoostFlow project - restricts deployments to allowed namespaces and repo
+  sourceRepos:
+    - https://github.com/KDim67/boostflow-thesis-config.git
+  destinations:
+    - server: https://kubernetes.default.svc
+      namespace: boostflow
+    - server: https://kubernetes.default.svc
+      namespace: monitoring
+  clusterResourceWhitelist:
+    - group: ""
+      kind: Namespace
+  namespaceResourceWhitelist:
+    - group: ""
+      kind: "*"
+    - group: apps
+      kind: "*"
+    - group: networking.k8s.io
+      kind: "*"
+    - group: rbac.authorization.k8s.io
+      kind: "*"

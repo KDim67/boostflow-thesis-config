@@ -1,0 +1,33 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: boostflow-app
+  namespace: boostflow
+  labels:
+    app.kubernetes.io/name: boostflow
+    app.kubernetes.io/component: app
+    app.kubernetes.io/part-of: boostflow
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/proxy-body-size: "16m"
+    nginx.ingress.kubernetes.io/enable-brotli: "false"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      gzip off;
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - boostflow.me
+      secretName: boostflow-tls
+  rules:
+    - host: boostflow.me
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: boostflow-app
+                port:
+                  name: http

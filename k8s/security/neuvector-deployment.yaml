@@ -1,0 +1,271 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: neuvector
+  namespace: security
+  labels:
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: runtime-security
+    app.kubernetes.io/part-of: boostflow
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  name: neuvector
+  labels:
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: runtime-security
+    app.kubernetes.io/part-of: boostflow
+rules:
+  - apiGroups: [""]
+    resources: ["nodes", "pods", "services", "namespaces", "configmaps", "secrets", "events"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["apps"]
+    resources: ["deployments", "daemonsets", "replicasets", "statefulsets"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["batch"]
+    resources: ["cronjobs", "jobs"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["networking.k8s.io"]
+    resources: ["networkpolicies"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["rbac.authorization.k8s.io"]
+    resources: ["clusterroles", "clusterrolebindings", "roles", "rolebindings"]
+    verbs: ["get", "list", "watch"]
+  - apiGroups: ["admissionregistration.k8s.io"]
+    resources: ["validatingwebhookconfigurations", "mutatingwebhookconfigurations"]
+    verbs: ["get", "list", "watch", "create", "update", "delete"]
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: neuvector
+  labels:
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: runtime-security
+    app.kubernetes.io/part-of: boostflow
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: neuvector
+subjects:
+  - kind: ServiceAccount
+    name: neuvector
+    namespace: security
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: neuvector-controller
+  namespace: security
+  labels:
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/part-of: boostflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: neuvector
+      app.kubernetes.io/component: controller
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: neuvector
+        app.kubernetes.io/component: controller
+        app.kubernetes.io/part-of: boostflow
+    spec:
+      serviceAccountName: neuvector
+      containers:
+        - name: controller
+          image: neuvector/controller:5.4.2
+          env:
+            - name: CLUSTER_JOIN_ADDR
+              value: neuvector-controller
+            - name: CLUSTER_LAN_PORT
+              value: "18301"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+          readinessProbe:
+            exec:
+              command:
+                - cat
+                - /tmp/ready
+            initialDelaySeconds: 15
+            periodSeconds: 10
+          volumeMounts:
+            - name: containerd-socket
+              mountPath: /var/run/containerd/containerd.sock
+              readOnly: true
+            - name: proc
+              mountPath: /host/proc
+              readOnly: true
+            - name: cgroup
+              mountPath: /host/cgroup
+              readOnly: true
+      volumes:
+        - name: containerd-socket
+          hostPath:
+            path: /run/containerd/containerd.sock
+        - name: proc
+          hostPath:
+            path: /proc
+        - name: cgroup
+          hostPath:
+            path: /sys/fs/cgroup
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: neuvector-controller
+  namespace: security
+  labels:
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/part-of: boostflow
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: controller
+  ports:
+    - name: cluster
+      port: 18301
+      targetPort: 18301
+      protocol: TCP
+    - name: api
+      port: 10443
+      targetPort: 10443
+      protocol: TCP
+---
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: neuvector-enforcer
+  namespace: security
+  labels:
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: enforcer
+    app.kubernetes.io/part-of: boostflow
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: neuvector
+      app.kubernetes.io/component: enforcer
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: neuvector
+        app.kubernetes.io/component: enforcer
+        app.kubernetes.io/part-of: boostflow
+    spec:
+      serviceAccountName: neuvector
+      tolerations:
+        - effect: NoSchedule
+          key: node-role.kubernetes.io/control-plane
+      hostPID: true
+      containers:
+        - name: enforcer
+          image: neuvector/enforcer:5.4.2
+          env:
+            - name: CLUSTER_JOIN_ADDR
+              value: neuvector-controller
+            - name: CLUSTER_LAN_PORT
+              value: "18301"
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: containerd-socket
+              mountPath: /var/run/containerd/containerd.sock
+              readOnly: true
+            - name: proc
+              mountPath: /host/proc
+              readOnly: true
+            - name: cgroup
+              mountPath: /host/cgroup
+              readOnly: true
+      volumes:
+        - name: containerd-socket
+          hostPath:
+            path: /run/containerd/containerd.sock
+        - name: proc
+          hostPath:
+            path: /proc
+        - name: cgroup
+          hostPath:
+            path: /sys/fs/cgroup
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: neuvector-scanner
+  namespace: security
+  labels:
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: scanner
+    app.kubernetes.io/part-of: boostflow
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: neuvector
+      app.kubernetes.io/component: scanner
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: neuvector
+        app.kubernetes.io/component: scanner
+        app.kubernetes.io/part-of: boostflow
+    spec:
+      serviceAccountName: neuvector
+      containers:
+        - name: scanner
+          image: neuvector/scanner:latest
+          env:
+            - name: CLUSTER_JOIN_ADDR
+              value: neuvector-controller
+          securityContext:
+            privileged: true
+          resources:
+            requests:
+              cpu: 50m
+              memory: 128Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: neuvector-webui
+  namespace: security
+  labels:
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: controller
+    app.kubernetes.io/part-of: boostflow
+spec:
+  type: ClusterIP
+  selector:
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: controller
+  ports:
+    - name: webui
+      port: 8443
+      targetPort: 10443
+      protocol: TCP

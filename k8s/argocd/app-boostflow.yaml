@@ -1,0 +1,24 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: boostflow
+  namespace: argocd
+spec:
+  project: boostflow
+  source:
+    repoURL: https://github.com/KDim67/boostflow-thesis-config.git
+    targetRevision: main
+    path: .
+    directory:
+      recurse: false
+      exclude: "argocd/*,monitoring/*"
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: boostflow
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false
+      - ApplyOutOfSyncOnly=true

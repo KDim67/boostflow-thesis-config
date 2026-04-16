@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: boostflow-app
+  namespace: boostflow
+  labels:
+    app.kubernetes.io/name: boostflow
+    app.kubernetes.io/component: app
+    app.kubernetes.io/part-of: boostflow
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: Role
+metadata:
+  name: boostflow-app
+  namespace: boostflow
+  labels:
+    app.kubernetes.io/name: boostflow
+    app.kubernetes.io/component: app
+    app.kubernetes.io/part-of: boostflow
+rules: []
+---
+apiVersion: rbac.authorization.k8s.io/v1
+kind: RoleBinding
+metadata:
+  name: boostflow-app
+  namespace: boostflow
+  labels:
+    app.kubernetes.io/name: boostflow
+    app.kubernetes.io/component: app
+    app.kubernetes.io/part-of: boostflow
+subjects:
+  - kind: ServiceAccount
+    name: boostflow-app
+    namespace: boostflow
+roleRef:
+  kind: Role
+  name: boostflow-app
+  apiGroup: rbac.authorization.k8s.io

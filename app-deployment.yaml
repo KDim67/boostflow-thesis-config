@@ -26,7 +26,7 @@ spec:
         - name: ghcr-pull-secret
       containers:
         - name: boostflow
-          image: ghcr.io/kdim67/boostflow:111-1308999
+          image: ghcr.io/kdim67/boostflow:112-1308999
           ports:
             - name: http
               containerPort: 3000

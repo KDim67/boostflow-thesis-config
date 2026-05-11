@@ -71,6 +71,7 @@ spec:
         runAsUser: 65534
         runAsGroup: 65534
         fsGroup: 65534
+        fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: prometheus
           image: prom/prometheus:v3.3.0
@@ -78,6 +79,7 @@ spec:
             - "--config.file=/etc/prometheus/prometheus.yml"
             - "--storage.tsdb.path=/prometheus"
             - "--storage.tsdb.retention.time=15d"
+            - "--storage.tsdb.retention.size=1200MB"
             - "--web.enable-lifecycle"
           ports:
             - name: http

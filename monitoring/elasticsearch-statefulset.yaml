@@ -21,11 +21,13 @@ spec:
         app.kubernetes.io/component: logging
         app.kubernetes.io/part-of: boostflow
     spec:
+      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
       initContainers:
         - name: fix-permissions
           image: busybox:1.37

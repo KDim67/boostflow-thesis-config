@@ -11,8 +11,8 @@ data:
   logstash.yml: |
     http.host: "0.0.0.0"
     xpack.monitoring.enabled: false
-    pipeline.workers: 2
-    pipeline.batch.size: 125
+    pipeline.workers: 1
+    pipeline.batch.size: 64
 
   pipelines.yml: |
     - pipeline.id: main
@@ -89,11 +89,13 @@ spec:
         app.kubernetes.io/component: logging
         app.kubernetes.io/part-of: boostflow
     spec:
+      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 1000
         runAsGroup: 1000
         fsGroup: 1000
+        fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: logstash
           image: docker.elastic.co/logstash/logstash:8.17.5

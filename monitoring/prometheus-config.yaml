@@ -10,8 +10,8 @@ metadata:
 data:
   prometheus.yml: |
     global:
-      scrape_interval: 15s
-      evaluation_interval: 15s
+      scrape_interval: 30s
+      evaluation_interval: 30s
 
     scrape_configs:
       - job_name: "prometheus"
@@ -69,6 +69,11 @@ data:
       - job_name: "kubernetes-pods"
         kubernetes_sd_configs:
           - role: pod
+            namespaces:
+              names:
+                - boostflow
+                - monitoring
+                - security
         relabel_configs:
           - source_labels: [__meta_kubernetes_pod_annotation_prometheus_io_scrape]
             action: keep
@@ -82,8 +87,6 @@ data:
             regex: ([^:]+)(?::\d+)?;(\d+)
             replacement: $1:$2
             target_label: __address__
-          - action: labelmap
-            regex: __meta_kubernetes_pod_label_(.+)
           - source_labels: [__meta_kubernetes_namespace]
             action: replace
             target_label: kubernetes_namespace

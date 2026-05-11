@@ -236,12 +236,18 @@ spec:
       serviceAccountName: neuvector
       containers:
         - name: scanner
-          image: neuvector/scanner:latest
+          image: neuvector/scanner:5.4.2
           env:
             - name: CLUSTER_JOIN_ADDR
               value: neuvector-controller
           securityContext:
-            privileged: true
+            privileged: false
+            allowPrivilegeEscalation: false
+            capabilities:
+              drop:
+                - ALL
+            seccompProfile:
+              type: RuntimeDefault
           resources:
             requests:
               cpu: 50m

@@ -76,11 +76,13 @@ spec:
         app.kubernetes.io/component: monitoring
         app.kubernetes.io/part-of: boostflow
     spec:
+      automountServiceAccountToken: false
       securityContext:
         runAsNonRoot: true
         runAsUser: 472
         runAsGroup: 472
         fsGroup: 472
+        fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: grafana
           image: grafana/grafana:11.6.0

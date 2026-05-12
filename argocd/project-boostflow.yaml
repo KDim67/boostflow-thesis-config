@@ -14,6 +14,10 @@ spec:
       namespace: monitoring
     - server: https://kubernetes.default.svc
       namespace: security
+    - server: https://kubernetes.default.svc
+      namespace: backup
+    - server: https://kubernetes.default.svc
+      namespace: compliance
   clusterResourceWhitelist:
     - group: ""
       kind: Namespace

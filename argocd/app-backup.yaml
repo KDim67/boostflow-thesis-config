@@ -1,0 +1,20 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: boostflow-backup
+  namespace: argocd
+spec:
+  project: boostflow
+  source:
+    repoURL: https://github.com/KDim67/boostflow-thesis-config
+    targetRevision: main
+    path: backup
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: backup
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true

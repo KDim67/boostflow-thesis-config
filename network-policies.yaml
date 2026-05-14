@@ -102,3 +102,10 @@ spec:
           port: 9000
         - protocol: TCP
           port: 9001
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: backup
+      ports:
+        - protocol: TCP
+          port: 9000

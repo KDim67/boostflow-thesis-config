@@ -37,7 +37,7 @@ spec:
           image: aquasec/kube-bench:v0.10.4
           imagePullPolicy: IfNotPresent
           command: ["kube-bench"]
-          args: ["run", "--targets", "node,policies,managedservices", "--json"]
+          args: ["run", "--targets", "node,policies,controlplane,etcd", "--json"]
           volumeMounts:
             - name: var-lib-etcd
               mountPath: /var/lib/etcd

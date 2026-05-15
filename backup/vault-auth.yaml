@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: boostflow-vault
+  namespace: backup
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultAuth
+metadata:
+  name: boostflow-auth
+  namespace: backup
+spec:
+  method: kubernetes
+  mount: kubernetes
+  kubernetes:
+    role: boostflow-app-backup
+    serviceAccount: boostflow-vault
+    audiences:
+      - vault
+---
+apiVersion: secrets.hashicorp.com/v1beta1
+kind: VaultStaticSecret
+metadata:
+  name: minio-secret
+  namespace: backup
+spec:
+  type: kv-v2
+  mount: secret
+  path: boostflow/runtime/minio
+  refreshAfter: 1h
+  vaultAuthRef: boostflow-auth
+  destination:
+    name: minio-secret
+    create: true
+    overwrite: true
+    transformation:
+      excludeRaw: true
+      excludes:
+        - .*
+      templates:
+        MINIO_ENDPOINT:      { text: '{{ .Secrets.endpoint }}' }
+        MINIO_ROOT_USER:     { text: '{{ .Secrets.root_user }}' }
+        MINIO_ROOT_PASSWORD: { text: '{{ .Secrets.root_password }}' }

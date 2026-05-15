@@ -20,6 +20,8 @@ spec:
       namespace: compliance
     - server: https://kubernetes.default.svc
       namespace: vault
+    - server: https://kubernetes.default.svc
+      namespace: vault-secrets-operator
   clusterResourceWhitelist:
     - group: ""
       kind: Namespace

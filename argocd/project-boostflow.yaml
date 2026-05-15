@@ -18,6 +18,8 @@ spec:
       namespace: backup
     - server: https://kubernetes.default.svc
       namespace: compliance
+    - server: https://kubernetes.default.svc
+      namespace: vault
   clusterResourceWhitelist:
     - group: ""
       kind: Namespace
@@ -33,4 +35,6 @@ spec:
     - group: networking.k8s.io
       kind: "*"
     - group: rbac.authorization.k8s.io
+      kind: "*"
+    - group: secrets.hashicorp.com
       kind: "*"

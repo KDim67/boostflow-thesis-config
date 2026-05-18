@@ -1,0 +1,83 @@
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: boostflow-neuvector
+  namespace: argocd
+spec:
+  project: boostflow
+  source:
+    repoURL: https://neuvector.github.io/neuvector-helm/
+    chart: core
+    targetRevision: 2.8.7
+    helm:
+      releaseName: neuvector
+      values: |
+        controller:
+          image:
+            repository: neuvector/controller
+            tag: 5.4.2
+          replicas: 1
+          resources:
+            requests:
+              cpu: 100m
+              memory: 512Mi
+            limits:
+              cpu: 1000m
+              memory: 1Gi
+        enforcer:
+          image:
+            repository: neuvector/enforcer
+            tag: 5.4.2
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+        manager:
+          image:
+            repository: neuvector/manager
+            tag: 5.4.2
+          svc:
+            type: ClusterIP
+        cve:
+          scanner:
+            image:
+              repository: neuvector/scanner
+              tag: "6"
+            replicas: 1
+          updater:
+            image:
+              repository: neuvector/updater
+              tag: latest
+        k3s:
+          enabled: false
+        containerd:
+          enabled: true
+          path: /run/containerd/containerd.sock
+        psp: false
+        internal:
+          autoGenerateCert: true
+        certupgrader:
+          activeDeadlineSeconds: 600
+        crdwebhook:
+          enabled: true
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: security
+  ignoreDifferences:
+    - group: ""
+      kind: Secret
+      name: neuvector-internal-certs
+      namespace: security
+      jsonPointers:
+        - /data
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=false
+      - ServerSideApply=true
+      - RespectIgnoreDifferences=true

@@ -29,7 +29,7 @@ spec:
         fsGroupChangePolicy: OnRootMismatch
       containers:
         - name: jaeger
-          image: jaegertracing/all-in-one:1.68
+          image: jaegertracing/all-in-one:1.68.0@sha256:6279882637ae03e70f519965d2ba5ca84cb785f4baf4f0d7237e827a37c33a42
           args:
             - "--memory.max-traces=10000"
           ports:

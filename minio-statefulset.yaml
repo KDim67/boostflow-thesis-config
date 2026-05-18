@@ -39,7 +39,7 @@ spec:
               protocol: TCP
           envFrom:
             - secretRef:
-                name: minio-secret
+                name: boostflow-minio-secret
           securityContext:
             runAsNonRoot: true
             runAsUser: 1000

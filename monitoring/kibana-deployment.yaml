@@ -54,7 +54,7 @@ spec:
               memory: 512Mi
             limits:
               cpu: 500m
-              memory: 768Mi
+              memory: 1536Mi
           livenessProbe:
             httpGet:
               path: /api/status

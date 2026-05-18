@@ -99,6 +99,9 @@ spec:
       containers:
         - name: logstash
           image: docker.elastic.co/logstash/logstash:8.17.5
+          env:
+            - name: LS_JAVA_OPTS
+              value: "-Xms512m -Xmx512m"
           ports:
             - name: beats
               containerPort: 5044
@@ -119,12 +122,12 @@ spec:
               memory: 512Mi
             limits:
               cpu: 500m
-              memory: 768Mi
+              memory: 1Gi
           livenessProbe:
             httpGet:
               path: /
               port: http
-            initialDelaySeconds: 60
+            initialDelaySeconds: 120
             periodSeconds: 30
           readinessProbe:
             httpGet:

@@ -15,7 +15,7 @@ data:
         spawned_process and
         container and
         k8s.ns.name = "boostflow" and
-        k8s.pod.label.app.kubernetes.io/name = "boostflow" and
+        k8s.pod.label[app.kubernetes.io/name] = "boostflow" and
         not proc.name in (node)
       output: >
         Unexpected process in boostflow container
@@ -27,7 +27,7 @@ data:
     - rule: Write to application directory in boostflow
       desc: Detect file writes to the /app directory (readOnlyRootFilesystem bypass attempt)
       condition: >
-        write and
+        open_write and
         container and
         k8s.ns.name = "boostflow" and
         fd.directory startswith /app and
@@ -46,8 +46,7 @@ data:
         outbound and
         container and
         k8s.ns.name = "boostflow" and
-        k8s.pod.label.app.kubernetes.io/name = "minio" and
-        not fd.sip.name in (rfc_1918_addresses)
+        k8s.pod.label[app.kubernetes.io/name] = "minio"
       output: >
         Unexpected outbound connection from MinIO
         (user=%user.name command=%proc.cmdline connection=%fd.name container=%container.id
@@ -72,7 +71,6 @@ data:
     - rule: Privilege escalation attempt
       desc: Detect setuid/setgid calls in boostflow namespace
       condition: >
-        consider_all_cgroup_subsystems and
         container and
         k8s.ns.name = "boostflow" and
         evt.type in (setuid, setgid) and

@@ -35,12 +35,15 @@ spec:
       ports:
         - protocol: TCP
           port: 8200
+    # kube-apiserver: ClusterIP 10.96.0.1:443 DNATs to host :6443
     - to:
         - ipBlock:
             cidr: 0.0.0.0/0
       ports:
         - protocol: TCP
           port: 443
+        - protocol: TCP
+          port: 6443
 ---
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy

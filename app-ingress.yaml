@@ -16,10 +16,10 @@ spec:
   ingressClassName: nginx
   tls:
     - hosts:
-        - boostflow.me
-      secretName: boostflow-tls
+        - boostflow-thesis.me
+      secretName: boostflow-thesis-tls
   rules:
-    - host: boostflow.me
+    - host: boostflow-thesis.me
       http:
         paths:
           - path: /

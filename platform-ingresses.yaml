@@ -244,7 +244,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: jenkins-ingress
-  namespace: default
+  namespace: boostflow
   labels:
     app.kubernetes.io/name: jenkins
     app.kubernetes.io/component: cicd
@@ -274,7 +274,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: sonarqube-ingress
-  namespace: default
+  namespace: boostflow
   labels:
     app.kubernetes.io/name: sonarqube
     app.kubernetes.io/component: code-quality

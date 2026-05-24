@@ -17,7 +17,7 @@ spec:
   tls:
     - hosts:
         - argocd.boostflow-thesis.me
-      secretName: boostflow-thesis-tls
+      secretName: argocd-tls
   rules:
     - host: argocd.boostflow-thesis.me
       http:
@@ -48,7 +48,7 @@ spec:
   tls:
     - hosts:
         - awx.boostflow-thesis.me
-      secretName: boostflow-thesis-tls
+      secretName: awx-tls
   rules:
     - host: awx.boostflow-thesis.me
       http:
@@ -79,7 +79,7 @@ spec:
   tls:
     - hosts:
         - vault.boostflow-thesis.me
-      secretName: boostflow-thesis-tls
+      secretName: vault-tls
   rules:
     - host: vault.boostflow-thesis.me
       http:
@@ -111,7 +111,7 @@ spec:
   tls:
     - hosts:
         - minio.boostflow-thesis.me
-      secretName: boostflow-thesis-tls
+      secretName: minio-tls
   rules:
     - host: minio.boostflow-thesis.me
       http:
@@ -142,7 +142,7 @@ spec:
   tls:
     - hosts:
         - grafana.boostflow-thesis.me
-      secretName: boostflow-thesis-tls
+      secretName: grafana-tls
   rules:
     - host: grafana.boostflow-thesis.me
       http:
@@ -173,7 +173,7 @@ spec:
   tls:
     - hosts:
         - prometheus.boostflow-thesis.me
-      secretName: boostflow-thesis-tls
+      secretName: prometheus-tls
   rules:
     - host: prometheus.boostflow-thesis.me
       http:
@@ -204,7 +204,7 @@ spec:
   tls:
     - hosts:
         - kibana.boostflow-thesis.me
-      secretName: boostflow-thesis-tls
+      secretName: kibana-tls
   rules:
     - host: kibana.boostflow-thesis.me
       http:
@@ -235,7 +235,7 @@ spec:
   tls:
     - hosts:
         - jaeger.boostflow-thesis.me
-      secretName: boostflow-thesis-tls
+      secretName: jaeger-tls
   rules:
     - host: jaeger.boostflow-thesis.me
       http:
@@ -266,7 +266,7 @@ spec:
   tls:
     - hosts:
         - jenkins.boostflow-thesis.me
-      secretName: boostflow-thesis-tls
+      secretName: jenkins-tls
   rules:
     - host: jenkins.boostflow-thesis.me
       http:
@@ -297,7 +297,7 @@ spec:
   tls:
     - hosts:
         - sonarqube.boostflow-thesis.me
-      secretName: boostflow-thesis-tls
+      secretName: sonarqube-tls
   rules:
     - host: sonarqube.boostflow-thesis.me
       http:

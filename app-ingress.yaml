@@ -18,7 +18,7 @@ spec:
   tls:
     - hosts:
         - boostflow-thesis.me
-      secretName: boostflow-thesis-tls
+      secretName: boostflow-app-tls
   rules:
     - host: boostflow-thesis.me
       http:

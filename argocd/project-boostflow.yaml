@@ -8,6 +8,7 @@ spec:
   sourceRepos:
     - https://github.com/KDim67/boostflow-thesis-config.git
     - https://neuvector.github.io/neuvector-helm/
+    - https://charts.jetstack.io
   destinations:
     - server: https://kubernetes.default.svc
       namespace: boostflow
@@ -27,6 +28,8 @@ spec:
       namespace: vault
     - server: https://kubernetes.default.svc
       namespace: vault-secrets-operator
+    - server: https://kubernetes.default.svc
+      namespace: cert-manager
   clusterResourceWhitelist:
     - group: ""
       kind: Namespace
@@ -40,6 +43,8 @@ spec:
       kind: ValidatingWebhookConfiguration
     - group: admissionregistration.k8s.io
       kind: MutatingWebhookConfiguration
+    - group: cert-manager.io
+      kind: ClusterIssuer
   namespaceResourceWhitelist:
     - group: ""
       kind: "*"
@@ -52,4 +57,8 @@ spec:
     - group: secrets.hashicorp.com
       kind: "*"
     - group: batch
+      kind: "*"
+    - group: cert-manager.io
+      kind: "*"
+    - group: acme.cert-manager.io
       kind: "*"

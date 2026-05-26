@@ -310,3 +310,35 @@ spec:
                 name: sonarqube-external
                 port:
                   number: 9000
+---
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: neuvector-webui-ingress
+  namespace: security
+  labels:
+    app.kubernetes.io/name: neuvector
+    app.kubernetes.io/component: security
+    app.kubernetes.io/part-of: boostflow
+  annotations:
+    nginx.ingress.kubernetes.io/ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
+    cert-manager.io/cluster-issuer: letsencrypt-production
+spec:
+  ingressClassName: nginx
+  tls:
+    - hosts:
+        - neuvector.boostflow-thesis.me
+      secretName: neuvector-tls
+  rules:
+    - host: neuvector.boostflow-thesis.me
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: neuvector-service-webui
+                port:
+                  number: 8443

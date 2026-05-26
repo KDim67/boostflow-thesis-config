@@ -24,7 +24,7 @@ spec:
       automountServiceAccountToken: false
       containers:
         - name: minio
-          image: quay.io/minio/minio:RELEASE.2025-03-12T18-04-18Z
+          image: quay.io/minio/minio:RELEASE.2025-03-12T18-04-18Z@sha256:c96cb807414696dc2c2d582b3c135999c12401e04ac95fc1cbdbea178f723956
           args:
             - server
             - /data

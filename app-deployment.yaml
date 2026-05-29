@@ -42,6 +42,11 @@ spec:
                 name: boostflow-minio-secret
             - secretRef:
                 name: boostflow-mail-secret
+          env:
+            - name: OTEL_EXPORTER_OTLP_ENDPOINT
+              value: "http://jaeger.monitoring.svc.cluster.local:4318"
+            - name: OTEL_SERVICE_NAME
+              value: "boostflow-app"
           securityContext:
             runAsNonRoot: true
             runAsUser: 65532

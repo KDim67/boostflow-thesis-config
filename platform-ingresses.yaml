@@ -199,7 +199,7 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/auth-type: basic
-    nginx.ingress.kubernetes.io/auth-secret: kibana-basic-auth
+    nginx.ingress.kubernetes.io/auth-secret: monitoring-basic-auth
     nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - Kibana"
     cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
@@ -233,7 +233,7 @@ metadata:
     nginx.ingress.kubernetes.io/ssl-redirect: "true"
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/auth-type: basic
-    nginx.ingress.kubernetes.io/auth-secret: kibana-basic-auth
+    nginx.ingress.kubernetes.io/auth-secret: monitoring-basic-auth
     nginx.ingress.kubernetes.io/auth-realm: "Authentication Required - Jaeger"
     cert-manager.io/cluster-issuer: letsencrypt-production
 spec:

@@ -77,13 +77,13 @@ items:
     ingress:
     - action: allow
       applications:
-      - HTTP
+      - any
       name: nv.boostflow-app.boostflow-ingress-0
       ports: any
       priority: 0
       selector:
         comment: ""
-        name: nodes
+        name: external
         original_name: ""
     - action: allow
       applications:
@@ -104,7 +104,7 @@ items:
         original_name: ""
     - action: allow
       applications:
-      - HTTP
+      - any
       name: nv.ingress-nginx.ingress-nginx-ingress
       ports: any
       priority: 0
@@ -166,17 +166,17 @@ items:
     ingress:
     - action: allow
       applications:
-      - HTTP
+      - any
       name: nv.minio.boostflow-ingress-2
       ports: any
       priority: 0
       selector:
         comment: ""
-        name: nodes
+        name: external
         original_name: ""
     - action: allow
       applications:
-      - HTTP
+      - any
       name: nv.ingress-nginx.ingress-nginx-minio-ingress
       ports: any
       priority: 0
@@ -237,7 +237,7 @@ items:
         - key: domain
           op: =
           value: backup
-        name: nv.backup
+        name: backup-ns
         original_name: ""
     process:
     - action: allow

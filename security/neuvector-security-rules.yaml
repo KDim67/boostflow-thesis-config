@@ -87,6 +87,16 @@ items:
         original_name: ""
     - action: allow
       applications:
+      - any
+      name: nv.boostflow-app.boostflow-ingress-nodes
+      ports: any
+      priority: 0
+      selector:
+        comment: ""
+        name: nodes
+        original_name: ""
+    - action: allow
+      applications:
       - HTTP
       name: nv.prometheus.monitoring-ingress-1
       ports: any
@@ -173,6 +183,16 @@ items:
       selector:
         comment: ""
         name: external
+        original_name: ""
+    - action: allow
+      applications:
+      - any
+      name: nv.minio.boostflow-ingress-nodes
+      ports: any
+      priority: 0
+      selector:
+        comment: ""
+        name: nodes
         original_name: ""
     - action: allow
       applications:

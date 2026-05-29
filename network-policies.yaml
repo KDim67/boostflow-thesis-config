@@ -32,6 +32,8 @@ spec:
               kubernetes.io/metadata.name: ingress-nginx
         - ipBlock:
             cidr: 10.0.0.0/24
+        - ipBlock:
+            cidr: 192.168.0.0/16
       ports:
         - protocol: TCP
           port: 3000
@@ -140,7 +142,11 @@ spec:
               kubernetes.io/metadata.name: ingress-nginx
         - ipBlock:
             cidr: 10.0.0.0/24
+        - ipBlock:
+            cidr: 192.168.0.0/16
       ports:
+        - protocol: TCP
+          port: 9000
         - protocol: TCP
           port: 9001
 

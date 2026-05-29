@@ -17,6 +17,10 @@ spec:
             repository: neuvector/controller
             tag: 5.4.2
           replicas: 1
+          persistence:
+            enabled: true
+            storageClass: "local-path"
+            size: 1Gi
           resources:
             requests:
               cpu: 10m

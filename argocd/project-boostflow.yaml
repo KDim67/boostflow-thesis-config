@@ -64,3 +64,6 @@ spec:
       kind: "*"
     - group: acme.cert-manager.io
       kind: "*"
+    - group: neuvector.com
+      kind: "*"
+

@@ -66,6 +66,7 @@ items:
       applications:
       - SSL
       - HTTP
+      - gRPC
       name: nv.external-egress
       ports: "443"
       priority: 0

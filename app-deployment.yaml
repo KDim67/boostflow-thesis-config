@@ -35,6 +35,8 @@ spec:
             - secretRef:
                 name: boostflow-firebase-admin-secret
             - secretRef:
+                name: boostflow-firebase-public-secret
+            - secretRef:
                 name: boostflow-oauth-secret
             - secretRef:
                 name: boostflow-gemini-secret

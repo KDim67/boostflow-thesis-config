@@ -17,10 +17,12 @@ spec:
             repository: neuvector/controller
             tag: 5.4.2
           replicas: 1
-          persistence:
+          pvc:
             enabled: true
+            accessModes:
+              - ReadWriteOnce
             storageClass: "local-path"
-            size: 1Gi
+            capacity: 1Gi
           resources:
             requests:
               cpu: 10m

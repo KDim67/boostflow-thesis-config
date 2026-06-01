@@ -66,7 +66,15 @@ spec:
                   mc alias set src "http://${MINIO_ENDPOINT}" "${MINIO_ROOT_USER}" "${MINIO_ROOT_PASSWORD}"
                   mkdir -p "/backup/${TS}"
                   mc mirror --overwrite --remove src/ "/backup/${TS}"
-                  find /backup -maxdepth 1 -mindepth 1 -type d -mtime +14 -exec rm -rf {} +
+                  CUTOFF=$(date -u -d "14 days ago" +%Y%m%d)
+                  for d in /backup/*; do
+                    [ -d "$d" ] || continue
+                    name=${d##*/}
+                    dir_date=${name%%T*}
+                    if [ "$dir_date" -lt "$CUTOFF" ]; then
+                      rm -rf "$d"
+                    fi
+                  done
               volumeMounts:
                 - name: backup
                   mountPath: /backup

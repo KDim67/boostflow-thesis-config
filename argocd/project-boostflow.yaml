@@ -66,4 +66,6 @@ spec:
       kind: "*"
     - group: neuvector.com
       kind: "*"
+    - group: autoscaling
+      kind: "*"
 

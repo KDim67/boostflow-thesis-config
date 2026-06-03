@@ -6,6 +6,13 @@ metadata:
     pod-security.kubernetes.io/enforce: privileged
 ---
 apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: default
+  namespace: compliance
+automountServiceAccountToken: false
+---
+apiVersion: v1
 kind: ConfigMap
 metadata:
   name: kube-bench-reports-pvc-info

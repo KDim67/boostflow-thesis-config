@@ -7,3 +7,5 @@ metadata:
     app.kubernetes.io/name: boostflow
     app.kubernetes.io/component: app
     app.kubernetes.io/part-of: boostflow
+automountServiceAccountToken: false
+

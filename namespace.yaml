@@ -24,3 +24,25 @@ metadata:
   name: security
   labels:
     app.kubernetes.io/part-of: boostflow
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: default
+  namespace: boostflow
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: default
+  namespace: monitoring
+automountServiceAccountToken: false
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: default
+  namespace: security
+automountServiceAccountToken: false
+

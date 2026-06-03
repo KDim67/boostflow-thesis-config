@@ -3,6 +3,7 @@ kind: ServiceAccount
 metadata:
   name: boostflow-vault
   namespace: boostflow
+automountServiceAccountToken: false
 ---
 apiVersion: secrets.hashicorp.com/v1beta1
 kind: VaultConnection

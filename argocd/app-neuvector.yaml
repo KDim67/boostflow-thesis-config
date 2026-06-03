@@ -12,6 +12,7 @@ spec:
     helm:
       releaseName: neuvector
       values: |
+        leastPrivilege: true
         controller:
           image:
             repository: neuvector/controller

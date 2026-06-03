@@ -12,12 +12,14 @@ data:
     apiVersion: 1
     datasources:
       - name: Prometheus
+        uid: Prometheus
         type: prometheus
         access: proxy
         url: http://prometheus:9090
         isDefault: true
         editable: false
       - name: Elasticsearch
+        uid: Elasticsearch
         type: elasticsearch
         access: proxy
         url: http://elasticsearch:9200
@@ -27,6 +29,7 @@ data:
           esVersion: "8.0.0"
         editable: false
       - name: Jaeger
+        uid: Jaeger
         type: jaeger
         access: proxy
         url: http://jaeger:16686

@@ -22,3 +22,10 @@ spec:
     syncOptions:
       - CreateNamespace=false
       - ApplyOutOfSyncOnly=true
+  ignoreDifferences:
+    - group: apps
+      kind: Deployment
+      name: boostflow-app
+      jsonPointers:
+        - /spec/replicas
+

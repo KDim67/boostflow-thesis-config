@@ -40,7 +40,7 @@ data:
           "description": "BoostFlow Next.js app liveness",
           "gridPos": {"h": 5, "w": 5, "x": 0, "y": 1},
           "datasource": {"type": "prometheus", "uid": "Prometheus"},
-          "targets": [{"expr": "up{job=\"boostflow-app\"}", "refId": "A"}],
+          "targets": [{"expr": "up{job=\"boostflow-app\"} == 1", "refId": "A"}],
           "fieldConfig": {
             "defaults": {
               "mappings": [{"type": "value", "options": {"0": {"text": "DOWN", "color": "dark-red", "index": 0}, "1": {"text": "UP", "color": "dark-green", "index": 1}}}],
@@ -58,7 +58,7 @@ data:
           "description": "MinIO object storage liveness",
           "gridPos": {"h": 5, "w": 5, "x": 5, "y": 1},
           "datasource": {"type": "prometheus", "uid": "Prometheus"},
-          "targets": [{"expr": "up{job=\"minio\"}", "refId": "A"}],
+          "targets": [{"expr": "up{job=\"minio\"} == 1", "refId": "A"}],
           "fieldConfig": {
             "defaults": {
               "mappings": [{"type": "value", "options": {"0": {"text": "DOWN", "color": "dark-red", "index": 0}, "1": {"text": "UP", "color": "dark-green", "index": 1}}}],
@@ -76,7 +76,7 @@ data:
           "description": "Kubelet node health",
           "gridPos": {"h": 5, "w": 5, "x": 10, "y": 1},
           "datasource": {"type": "prometheus", "uid": "Prometheus"},
-          "targets": [{"expr": "up{job=\"kubernetes-nodes\"}", "legendFormat": "{{kubernetes_io_hostname}}", "refId": "A"}],
+          "targets": [{"expr": "up{job=\"kubernetes-nodes\"} == 1", "legendFormat": "{{kubernetes_io_hostname}}", "refId": "A"}],
           "fieldConfig": {
             "defaults": {
               "mappings": [{"type": "value", "options": {"0": {"text": "DOWN", "color": "dark-red", "index": 0}, "1": {"text": "UP", "color": "dark-green", "index": 1}}}],
@@ -94,7 +94,7 @@ data:
           "description": "Next.js process uptime from /api/metrics",
           "gridPos": {"h": 5, "w": 5, "x": 15, "y": 1},
           "datasource": {"type": "prometheus", "uid": "Prometheus"},
-          "targets": [{"expr": "process_uptime_seconds{job=\"boostflow-app\"}", "refId": "A"}],
+          "targets": [{"expr": "process_uptime_seconds{job=\"boostflow-app\"} and up{job=\"boostflow-app\"} == 1", "refId": "A"}],
           "fieldConfig": {
             "defaults": {
               "thresholds": {"mode": "absolute", "steps": [{"color": "orange", "value": null}, {"color": "dark-green", "value": 3600}]},

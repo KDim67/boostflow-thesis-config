@@ -1,0 +1,36 @@
+apiVersion: kyverno.io/v1
+kind: ClusterPolicy
+metadata:
+  name: verify-boostflow-image-signature
+spec:
+  admission: true
+  background: true
+  failurePolicy: Ignore
+  validationFailureAction: Audit
+  webhookTimeoutSeconds: 30
+  rules:
+  - name: check-cosign-signature
+    match:
+      any:
+      - resources:
+          kinds:
+          - Pod
+          namespaces:
+          - boostflow
+    verifyImages:
+    - imageReferences:
+      - "ghcr.io/kdim67/boostflow*"
+      mutateDigest: false
+      required: true
+      verifyDigest: true
+      useCache: true
+      imageRegistryCredentials:
+        secrets:
+        - ghcr-pull-secret
+      attestors:
+      - count: 1
+        entries:
+        - keys:
+            secret:
+              name: cosign-public-key-secret
+              namespace: boostflow

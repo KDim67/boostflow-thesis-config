@@ -47,6 +47,8 @@ spec:
       kind: MutatingWebhookConfiguration
     - group: cert-manager.io
       kind: ClusterIssuer
+    - group: kyverno.io
+      kind: ClusterPolicy
   namespaceResourceWhitelist:
     - group: ""
       kind: "*"

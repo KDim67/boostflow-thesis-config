@@ -12,6 +12,8 @@ metadata:
     nginx.ingress.kubernetes.io/force-ssl-redirect: "true"
     nginx.ingress.kubernetes.io/proxy-body-size: "16m"
     nginx.ingress.kubernetes.io/enable-brotli: "false"
+    nginx.ingress.kubernetes.io/limit-rps: "50"
+    nginx.ingress.kubernetes.io/limit-connections: "20"
     cert-manager.io/cluster-issuer: letsencrypt-production
 spec:
   ingressClassName: nginx

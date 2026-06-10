@@ -96,7 +96,7 @@ spec:
               memory: 512Mi
           volumeMounts:
             - name: containerd-socket
-              mountPath: /host/run/containerd/containerd.sock
+              mountPath: /run/containerd/containerd.sock
               readOnly: true
             - name: proc
               mountPath: /host/proc

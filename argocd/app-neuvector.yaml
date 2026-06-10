@@ -8,15 +8,12 @@ spec:
   source:
     repoURL: https://neuvector.github.io/neuvector-helm/
     chart: core
-    targetRevision: 2.8.7
+    targetRevision: 2.9.10
     helm:
       releaseName: neuvector
       values: |
         leastPrivilege: true
         controller:
-          image:
-            repository: neuvector/controller
-            tag: 5.4.2
           replicas: 1
           pvc:
             enabled: true
@@ -32,9 +29,6 @@ spec:
               cpu: 1000m
               memory: 2Gi
         enforcer:
-          image:
-            repository: neuvector/enforcer
-            tag: 5.4.2
           resources:
             requests:
               cpu: 10m
@@ -43,16 +37,10 @@ spec:
               cpu: 500m
               memory: 512Mi
         manager:
-          image:
-            repository: neuvector/manager
-            tag: 5.4.2
           svc:
             type: ClusterIP
         cve:
           scanner:
-            image:
-              repository: neuvector/scanner
-              tag: "6"
             replicas: 1
           updater:
             image:

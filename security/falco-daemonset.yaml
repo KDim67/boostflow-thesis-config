@@ -113,6 +113,9 @@ spec:
             - name: etc
               mountPath: /host/etc
               readOnly: true
+            - name: sys
+              mountPath: /host/sys
+              readOnly: true
             - name: custom-rules
               mountPath: /etc/falco/rules.d
       volumes:
@@ -134,6 +137,9 @@ spec:
         - name: etc
           hostPath:
             path: /etc
+        - name: sys
+          hostPath:
+            path: /sys
         - name: custom-rules
           configMap:
             name: falco-custom-rules

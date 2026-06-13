@@ -5,8 +5,8 @@ metadata:
 spec:
   admission: true
   background: true
-  failurePolicy: Ignore
-  validationFailureAction: Audit
+  failurePolicy: Fail
+  validationFailureAction: Enforce
   webhookTimeoutSeconds: 30
   rules:
   - name: check-cosign-signature
